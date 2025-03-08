@@ -1,0 +1,13 @@
+{
+  "codeowners": [
+    "touero"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/touero/ha_vacation",
+  "domain": "ha_vacation",
+  "iot_class": "cloud_polling",
+  "name": "HaVacation",
+  "requirements": ["chinesecalendar==1.10.0"],
+  "version": "0.0.1"
+}
