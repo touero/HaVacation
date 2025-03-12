@@ -3,8 +3,7 @@
     "touero"
   ],
   "config_flow": true,
-  "dependencies": [],
-  "documentation": "https://github.com/touero/ha_vacation",
+  "documentation": "https://github.com/touero/HaVacation",
   "domain": "ha_vacation",
   "iot_class": "cloud_polling",
   "name": "HaVacation",
