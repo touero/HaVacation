@@ -8,6 +8,9 @@
   "domain": "ha_vacation",
   "iot_class": "cloud_polling",
   "name": "HaVacation",
-  "requirements": ["chinesecalendar==1.10.0"],
-  "version": "0.0.1"
+  "requirements": [
+    "chinesecalendar==1.10.0"
+  ],
+  "version": "0.0.1",
+  "icon": "mdi:calendar-today"
 }
