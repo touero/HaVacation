@@ -21,7 +21,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         update_at_midnight,
         hour=0,
         minute=0,
-        second=1,
+        second=0,
     )
 
 
@@ -33,16 +33,11 @@ class VacationSensor(Entity):
         self._unique_id = f"vacation_sensor_{date}"
 
         self.ha_vacation_date = HaVacationDate(date)
-        self._attributes: dict = {
-            self.ha_vacation_date.name: str(self.ha_vacation_date),
-            "IsWorkday": self.ha_vacation_date.is_workday,
-            "IsVacation": self.ha_vacation_date.is_vacation,
-            "UpdateAt": 'initialization'
-        }
+        self._attributes: dict = self.ha_vacation_date.attributes
 
     @property
     def state(self):
-        return 'workday' if self._attributes["IsWorkday"] else 'vacation'
+        return self.ha_vacation_date.state
 
     @property
     def should_poll(self):
@@ -66,10 +61,5 @@ class VacationSensor(Entity):
 
     def update_attributes(self):
         self.ha_vacation_date.update()
-        self._attributes[self.ha_vacation_date.name] = self.ha_vacation_date
-        self._attributes["IsWorkday"] = self.ha_vacation_date.is_workday
-        self._attributes["IsVacation"] = self.ha_vacation_date.is_vacation
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self._attributes["UpdateAt"] = now
 
         self.schedule_update_ha_state()

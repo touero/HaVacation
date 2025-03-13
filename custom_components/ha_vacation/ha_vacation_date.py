@@ -10,10 +10,12 @@ class HaVacationDate:
     name: str
     today: datetime.date = field(default_factory=datetime.date.today)
     now: str = field(default=None, init=False)
+    attributes: dict = field(default=None, init=False)
     date_datetime: Optional[datetime.date] = field(default=None, init=False)
 
     def __post_init__(self):
         self.update_date()
+        self.update_attributes()
 
     def __str__(self) -> str:
         return self.date_datetime.strftime("%Y-%m-%d")
@@ -26,11 +28,17 @@ class HaVacationDate:
     def is_workday(self) -> bool:
         return is_workday(self.date_datetime)
 
+    @property
+    def state(self) -> str:
+        return 'workday' if self.is_workday else 'vacation'
+
     def update(self):
         self.today = datetime.date.today()
         self.update_date()
+        self.update_attributes()
 
     def update_date(self):
+        self.now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if self.name == Options.TODAY.value:
             self.date_datetime = self.today
         elif self.name == Options.TOMORROW.value:
@@ -39,3 +47,11 @@ class HaVacationDate:
             self.date_datetime = self.today - datetime.timedelta(days=1)
         else:
             raise ValueError("Invalid date option")
+
+    def update_attributes(self):
+        self.attributes = {
+            self.name: str(self),
+            "IsWorkday": self.is_workday,
+            "IsVacation": self.is_vacation,
+            "UpdatedAt": self.now
+        }
