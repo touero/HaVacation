@@ -17,11 +17,11 @@ In add integration search HaVacation configure it.
 
 After you will get 1-3 sensor:
 
-![preview](./preview/sensor.png)
+![preview](https://github.com/touero/HaVacation/blob/main/preview/sensor.png)
 
 And then have attribute:
 
-![preview](./preview/sensor_details.png)
+![preview](https://github.com/touero/HaVacation/blob/main/preview/sensor_details.png)
 
 > [!TIP]
 > `IsWorkday` indicates whether it is a working day.  
