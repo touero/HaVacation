@@ -4,14 +4,14 @@ A Chinese workday/vacation integration for Home-Assistant.
 
 ## Installation
 
-Go to Releases download the HaVacation.tar.gz, and move it to `HomeAssistant/custom_components` and execute:
+Go to [Releases](https://github.com/touero/HaVacation/releases/) download the HaVacation.tar.gz, and move it to `HomeAssistant/custom_components` and execute:
 
 ```shell
-tar -zxvf HaVacation.tar.gz
+tar -zxvf ha_vacation.tar.gz
 ```
 And then restart your home-assistant.
 
-In add integration search HaVacation configure it it.
+In add integration search HaVacation configure it.
 
 ## Details
 
@@ -24,10 +24,10 @@ And then have attribute:
 ![preview](./preview/sensor_details.png)
 
 > [!TIP]
-> `Workday` indicates whether it is a working day.  
-> `Vacation` indicates whether it is a holiday.  
-> The value of `Workday` and `Vacation` there will be only two changes: `true` and `false`.  
-> First add integration UpdatedAt is `init`, it will update in everyday 00:01.  
+> `IsWorkday` indicates whether it is a working day.  
+> `IsVacation` indicates whether it is a holiday.  
+> The value of `IsWorkday` and `IsVacation` there will be only two changes: `true` and `false`.  
+> UpdatedAt is the sensor update datetime, it will update at every day 00:00.  
 
 Start your automation!
 

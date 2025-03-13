@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import async_track_time_change
 
