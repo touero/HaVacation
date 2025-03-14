@@ -1,0 +1,23 @@
+name: "PR Labeler"
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Add labels based on PR title"
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          labels: |
+            bug: ["bug", "fix", "error", "issue"]
+            documentation: ["docs", "readme", "documentation", "guide"]
+            duplicate: ["duplicate"]
+            feature: ["feature", "new", "enhancement"]
+            good first issue: ["good first issue", "beginner", "easy"]
+            help wanted: ["help wanted", "support", "assistance"]
+            invalid: ["invalid", "not valid"]
+            question: ["question", "how to", "help"]
+            wontfix: ["wontfix", "not fixed"]
