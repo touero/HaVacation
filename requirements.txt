@@ -1,0 +1,5 @@
+pytest
+homeassistant==2025.2.4
+flake8
+pylint
+chinesecalendar==1.10.0
