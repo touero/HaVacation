@@ -8,8 +8,8 @@ from .constants import Options
 @dataclass
 class HaVacationDate:
     name: str
+    now: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     today: datetime.date = field(default_factory=datetime.date.today)
-    now: str = field(default=None, init=False)
     attributes: dict = field(default=None, init=False)
     date_datetime: Optional[datetime.date] = field(default=None, init=False)
 
@@ -34,11 +34,11 @@ class HaVacationDate:
 
     def update(self):
         self.today = datetime.date.today()
+        self.now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.update_date()
         self.update_attributes()
 
     def update_date(self):
-        self.now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if self.name == Options.TODAY.value:
             self.date_datetime = self.today
         elif self.name == Options.TOMORROW.value:
