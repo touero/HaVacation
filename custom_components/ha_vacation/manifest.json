@@ -1,6 +1,6 @@
 {
   "codeowners": [
-    "touero"
+    "@touero"
   ],
   "config_flow": true,
   "documentation": "https://github.com/touero/HaVacation",
