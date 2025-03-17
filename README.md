@@ -4,6 +4,14 @@ A Chinese workday/vacation integration for Home-Assistant.
 
 ## Installation
 
+### Hacs
+
+If you have installed [hacs](https://github.com/hacs/integration), please click:  
+[![ByHacs](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=touero&repository=HaVacation&category=integration)  
+After restart Home-Assistant, you can find it in the integration menu or click:  
+[![add_integration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=ha_vacation)
+
+### Manual Install
 Go to [Releases](https://github.com/touero/HaVacation/releases/) download the HaVacation.tar.gz, and move it to `HomeAssistant/custom_components` and execute:
 
 ```shell
