@@ -35,7 +35,7 @@ And then have attribute:
 > `IsWorkday` indicates whether it is a working day.  
 > `IsVacation` indicates whether it is a holiday.  
 > The value of `IsWorkday` and `IsVacation` there will be only two changes: `true` and `false`.  
-> UpdatedAt is the sensor update datetime, it will update at every day 00:00.  
+> `UpdatedAt` is the sensor update datetime, it will update at every day 00:00.  
 
 Start your automation!
 
