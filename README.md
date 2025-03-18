@@ -4,7 +4,7 @@ A Chinese workday/vacation integration for Home-Assistant.
 
 ## Installation
 
-### Hacs
+### Hacs Install
 
 If you have installed [hacs](https://github.com/hacs/integration), please click:  
 [![ByHacs](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=touero&repository=HaVacation&category=integration)  

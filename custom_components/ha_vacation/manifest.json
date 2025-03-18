@@ -1,16 +1,11 @@
 {
-  "codeowners": [
-    "@touero"
-  ],
+  "domain": "ha_vacation",
+  "name": "HaVacation",
+  "codeowners": ["@touero"],
   "config_flow": true,
   "documentation": "https://github.com/touero/HaVacation",
-  "issue_tracker": "https://github.com/touero/HaVacation/issues",
-  "domain": "ha_vacation",
   "iot_class": "cloud_polling",
-  "name": "HaVacation",
-  "requirements": [
-    "chinesecalendar==1.10.0"
-  ],
-  "version": "0.0.1",
-  "icon": "mdi:calendar-today"
+  "issue_tracker": "https://github.com/touero/HaVacation/issues",
+  "requirements": ["chinesecalendar==1.10.0"],
+  "version": "0.0.1"
 }

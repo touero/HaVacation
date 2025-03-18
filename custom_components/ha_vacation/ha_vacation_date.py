@@ -10,7 +10,7 @@ class HaVacationDate:
     name: str
     now: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     today: datetime.date = field(default_factory=datetime.date.today)
-    attributes: dict = field(default=None, init=False)
+    attributes: dict = field(default_factory=dict, init=False)
     date_datetime: Optional[datetime.date] = field(default=None, init=False)
 
     def __post_init__(self):

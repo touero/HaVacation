@@ -4,21 +4,6 @@
 ## Related Issue
 <!-- Link to related issues, e.g., "Fixes #123" or "Closes #456" -->
 
-## Change Type
-- [ ] Bug Fix
-- [ ] New Feature
-- [ ] Documentation Update
-- [ ] Code Refactoring
-- [ ] Others (please specify)
-
-## Changes
-- **Added**:
-- **Modified**:
-- **Removed**:
-
-## How to Test
-<!-- Describe how to verify the changes, including test steps and environment -->
-
 ## Screenshots or Logs (Optional)
 <!-- Attach screenshots or logs if there are UI changes or important logs -->
 
@@ -31,4 +16,4 @@
 
 ---
 
-@reviewers Please review, thanks!
+Please review, thanks!

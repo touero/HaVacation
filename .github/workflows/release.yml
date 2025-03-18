@@ -1,0 +1,37 @@
+name: Release HaVacation
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create tar.gz package
+        run: |
+          cd custom_components
+          tar -zcvf ha_vacation.tar.gz ha_vacation
+          mv ha_vacation.tar.gz ../dist/
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.tag_name }}
+          files: dist/ha_vacation.tar.gz
+          body: "${{ env.tag_name }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup
+        run: rm -f dist/ha_vacation.tar.gz

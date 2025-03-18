@@ -49,7 +49,7 @@ unless python_files.empty?
     message("✅ No Flake8 issues found!")
   end
 
-  pylint_result = `pylint --output-format=parseable #{python_files.join(" ")}`
+  pylint_result = `pylint pylint --disable=C0114,C0115,C0116 --output-format=parseable #{python_files.join(" ")}`
   pylint_exit_status = $?.exitstatus
 
   if pylint_exit_status != 0

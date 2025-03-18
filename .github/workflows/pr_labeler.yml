@@ -12,17 +12,58 @@ jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - name: "Add labels based on PR title"
-        uses: actions-ecosystem/action-add-labels@v1
+      - name: "Check PR title and add labels"
+        uses: actions/github-script@v6
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          labels: |
-            bug: ["bug", "fix", "error", "issue"]
-            documentation: ["docs", "readme", "documentation", "guide"]
-            duplicate: ["duplicate"]
-            feature: ["feature", "new", "enhancement"]
-            good first issue: ["good first issue", "beginner", "easy"]
-            help wanted: ["help wanted", "support", "assistance"]
-            invalid: ["invalid", "not valid"]
-            question: ["question", "how to", "help"]
-            wontfix: ["wontfix", "not fixed"]
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            const title = context.payload.pull_request.title.toLowerCase();
+            const labels = [];
+
+            if (title.includes('bug')) {
+              labels.push('bug');
+            }
+            if (title.includes('fix')) {
+              labels.push('bug');
+            }
+            if (title.includes('duplicate')) {
+              labels.push('duplicate');
+            }
+            if (title.includes('feature')) {
+              labels.push('feature');
+            }
+            if (title.includes('support')) {
+              labels.push('feature');
+            }
+            if (title.includes('good first issue')) {
+              labels.push('good first issue');
+            }
+            if (title.includes('want to')) {
+              labels.push('help wanted');
+            }
+            if (title.includes('invalid')) {
+              labels.push('invalid');
+            }
+            if (title.includes('question')) {
+              labels.push('question');
+            }
+            if (title.includes('wontfix')) {
+              labels.push('wontfix');
+            }
+            if (title.includes('docs')) {
+              labels.push('docs');
+            }
+            
+           console.log("Labels to be added:", labels);
+
+            if (labels.length > 0) {
+              const pr_number = context.payload.pull_request.number;
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr_number,
+                labels: labels
+              });
+            } else {
+              console.log("No labels to add.");
+            }
