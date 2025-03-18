@@ -18,7 +18,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_track_time_change(
         hass,
         update_at_midnight,
-        hour=11,
+        hour=0,
         minute=0,
         second=0,
     )
