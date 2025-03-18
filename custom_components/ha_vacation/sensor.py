@@ -18,7 +18,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_track_time_change(
         hass,
         update_at_midnight,
-        hour=0,
+        hour=11,
         minute=0,
         second=0,
     )
@@ -35,30 +35,30 @@ class VacationSensor(Entity):
         self._attributes: dict = self.ha_vacation_date.attributes
 
     @property
-    def state(self):
+    def state(self) -> str:
         return self.ha_vacation_date.state
 
     @property
-    def should_poll(self):
+    def should_poll(self) -> bool:
         return False
 
     @property
-    def icon(self):
+    def icon(self) -> str:
         return "mdi:calendar"
 
     @property
-    def unique_id(self):
+    def unique_id(self) -> str:
         return self._unique_id
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @property
-    def extra_state_attributes(self):
+    def extra_state_attributes(self) -> dict:
         return self._attributes
 
     def update_attributes(self):
         self.ha_vacation_date.update()
-
+        self._attributes = self.ha_vacation_date.attributes
         self.schedule_update_ha_state()
