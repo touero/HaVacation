@@ -11,6 +11,5 @@
   "requirements": [
     "chinesecalendar==1.10.0"
   ],
-  "version": "0.0.1",
-  "icon": "mdi:calendar-today"
+  "version": "0.0.1"
 }
