@@ -59,6 +59,8 @@ class VacationSensor(Entity):
         return self._attributes
 
     def update_attributes(self):
+        self.hass.bus.fire("ha_vacation_updating", {"entity_id": self.entity_id, "action": "start_update"})
         self.ha_vacation_date.update()
         self._attributes = self.ha_vacation_date.attributes
-        self.schedule_update_ha_state()
+        self.async_write_ha_state()
+        self.hass.bus.fire("ha_vacation_updated", {"entity_id": self.entity_id, "state": self.state, "attributes": self._attributes})
