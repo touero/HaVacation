@@ -3,7 +3,7 @@ from typing import Optional
 from dataclasses import dataclass, field
 
 from chinese_calendar import is_holiday, is_workday
-from .constants import Options
+from .constants import Options, HaVacationAttributes
 
 @dataclass
 class HaVacationDate:
@@ -21,16 +21,22 @@ class HaVacationDate:
         return self.date_datetime.strftime("%Y-%m-%d")
 
     @property
-    def is_vacation(self) -> bool:
-        return is_holiday(self.date_datetime)
+    def is_vacation(self) -> str:
+        if is_holiday(self.date_datetime):
+            return HaVacationAttributes.TRUE.value
+        else:
+            return HaVacationAttributes.FALSE.value
 
     @property
-    def is_workday(self) -> bool:
-        return is_workday(self.date_datetime)
+    def is_workday(self) -> str:
+        if is_workday(self.date_datetime):
+            return HaVacationAttributes.TRUE.value
+        else:
+            return HaVacationAttributes.FALSE.value
 
     @property
     def state(self) -> str:
-        return 'workday' if self.is_workday else 'vacation'
+        return 'workday' if self.is_workday == HaVacationAttributes.TRUE.value else 'vacation'
 
     def update(self):
         self.today = datetime.date.today()
@@ -51,7 +57,7 @@ class HaVacationDate:
     def update_attributes(self):
         self.attributes = {
             self.name: str(self),
-            "IsWorkday": self.is_workday,
-            "IsVacation": self.is_vacation,
-            "UpdatedAt": self.now
+            "is_workday": self.is_workday,
+            "is_vacation": self.is_vacation,
+            "updated_at": self.now
         }

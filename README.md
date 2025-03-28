@@ -32,8 +32,8 @@ And then have attribute:
 ![preview](https://github.com/touero/HaVacation/blob/main/preview/sensor_details.png)
 
 > [!TIP]
-> `IsWorkday` indicates whether it is a working day.  
-> `IsVacation` indicates whether it is a holiday.  
+> `Is workday` indicates whether it is a working day, type: `string`.  
+> `Is vacation` indicates whether it is a holiday, type: `string`.  
 > The value of `IsWorkday` and `IsVacation` there will be only two changes: `true` and `false`.  
 > `UpdatedAt` is the sensor update datetime, it will update at every day 00:00.  
 

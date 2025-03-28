@@ -8,3 +8,8 @@ class Options(Enum):
     @staticmethod
     def to_list():
         return [option.value for option in Options]
+
+
+class HaVacationAttributes(Enum):
+    TRUE = "true"
+    FALSE = "false"
