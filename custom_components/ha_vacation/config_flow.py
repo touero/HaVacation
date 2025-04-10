@@ -1,3 +1,4 @@
+import re
 import logging
 from typing import Optional
 
@@ -6,13 +7,12 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.config_entries import OptionsFlow
 
-from .constants import Options, CustomizeMenuItems, CustomizeDateSet
+from .constants import Options, CustomizeMenuItems, CustomizeDateSet, CONFIG_FILE
 from .customize_date import CustomizeDate
 
 _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = "ha_vacation"
-CONFIG_FILE = "custom_components/ha_vacation/ha_vacation.yaml"
 OPTIONS = Options.to_list()
 
 
@@ -67,9 +67,8 @@ class HaVacationOptionsFlow(OptionsFlow):
         errors = {}
         if user_input is not None:
             date = user_input.get("date", "")
-            if not date:
-                errors = "invalid_date"
-                _LOGGER.error("日期不能为空")
+            if not date or not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
+                errors["date"] = "请输入有效的日期格式（YYYY-MM-DD）"
             else:
                 await self.customize_date.save_customize_date(CustomizeDateSet.VACATION.value, date)
                 _LOGGER.info(f"日期已保存到 {CONFIG_FILE}: {date}")
@@ -96,9 +95,8 @@ class HaVacationOptionsFlow(OptionsFlow):
         errors = {}
         if user_input is not None:
             date = user_input.get("date", "")
-            if not date:
-                errors = "invalid_date"
-                _LOGGER.error("日期不能为空")
+            if not date or not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
+                errors["date"] = "请输入有效的日期格式（YYYY-MM-DD）"
             else:
                 await self.customize_date.save_customize_date(CustomizeDateSet.WORKDAY.value, date)
                 _LOGGER.info(f"日期已保存到 {CONFIG_FILE}: {date}")

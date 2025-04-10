@@ -1,5 +1,9 @@
 from enum import Enum
 
+
+CONFIG_FILE = "custom_components/ha_vacation/ha_vacation.yaml"
+
+
 class Options(Enum):
     TODAY: str = "today"
     YESTERDAY: str = "yesterday"

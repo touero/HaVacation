@@ -15,7 +15,7 @@ class CustomizeDate:
         self.file_path = self.hass.config.path(config_file)
         os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
 
-    async def _load_original_data(self) -> dict:
+    def _load_local_data(self) -> dict:
         default_data = {CustomizeDateSet.VACATION.value: [], CustomizeDateSet.WORKDAY.value: []}
         if os.path.exists(self.file_path):
             try:
@@ -27,6 +27,9 @@ class CustomizeDate:
             except yaml.YAMLError as e:
                 _LOGGER.error(f"Read {self.file_path} failed: {e}")
         return default_data
+
+    async def _load_original_data(self) -> dict:
+        return self._load_local_data()
 
     async def write_customize_date_to_yaml(self, data_written):
         try:
@@ -55,3 +58,7 @@ class CustomizeDate:
             _LOGGER.warning(f"Date {date} not found in {self.file_path}")
         except OSError as e:
             _LOGGER.error(f"Delete write {self.file_path} failed: {e}")
+
+    def sync_load_customize_date(self, date_type: str):
+        default_data = self._load_local_data()
+        return default_data[date_type]
