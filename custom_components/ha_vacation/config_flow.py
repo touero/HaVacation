@@ -52,15 +52,16 @@ class HaVacationOptionsFlow(OptionsFlow):
 
     async def async_step_menu(self, user_input=None):
         if user_input == CustomizeMenuItems.ADD_VACATION_DATE.name:
-            return await self.async_step_add_vacation_date()
+            step = await self.async_step_add_vacation_date()
         elif user_input == CustomizeMenuItems.DELETE_VACATION_DATE.name:
-            return await self.async_step_delete_vacation_date()
+            step = await self.async_step_delete_vacation_date()
         elif user_input == CustomizeMenuItems.ADD_WORKDAY_DATE.name:
-            return await self.async_step_add_workday_date()
+            step = await self.async_step_add_workday_date()
         elif user_input == CustomizeMenuItems.DELETE_WORKDAY_DATE.name:
-            return await self.async_step_delete_workday_date()
+            step = await self.async_step_delete_workday_date()
         else:
-            return self.async_show_menu(step_id="menu", menu_options=CustomizeMenuItems.to_dict())
+            step = self.async_show_menu(step_id="menu", menu_options=CustomizeMenuItems.to_dict())
+        return step
 
     async def async_step_add_vacation_date(self, user_input=None):
         errors = {}

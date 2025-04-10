@@ -38,23 +38,20 @@ markdown(summary)
 python_files = (git.modified_files + git.added_files).select { |file| file.end_with?(".py") }
 
 unless python_files.empty?
-  flake8_result = `flake8 #{python_files.join(" ")}`
+  flake8_result = `flake8 --ignore=E501 #{python_files.join(" ")}`
   flake8_exit_status = $?.exitstatus
-
-  if flake8_result.include?("E501")
-    message("📣 Flake8 code issues found (lines > 79 characters):\n```\n#{flake8_result}\n```")
-  elif flake8_exit_status != 0
-    fail("❌  Flake8 code issues found:\n```\n#{flake8_result}\n```")
+  if flake8_exit_status != 0
+    fail("❌ Flake8 检查：\n```\n#{flake8_result}\n```")
   else
-    message("✅ No Flake8 issues found!")
+    message("✅ Flake8 检查未发现问题！")
   end
 
-  pylint_result = `pylint pylint --disable=C0114,C0115,C0116 --output-format=parseable #{python_files.join(" ")}`
+  pylint_result = `pylint --disable=C0301,C0114,C0115,C0116 --output-format=parseable #{python_files.join(" ")}`
   pylint_exit_status = $?.exitstatus
 
   if pylint_exit_status != 0
-    fail("❌  Pylint issues found:\n```\n#{pylint_result}\n```")
+    fail("❌ Pylint 检查：\n```\n#{pylint_result}\n```")
   else
-    message("✅ No Pylint issues found!")
+    message("✅ Pylint 检查未发现问题！")
   end
 end
