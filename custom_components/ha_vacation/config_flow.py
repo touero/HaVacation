@@ -27,7 +27,7 @@ class HaVacationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["date"] = "invalid_date"
                 _LOGGER.error("无效的日期选项: %s", date)
             else:
-                _LOGGER.info("创建配置条目: %s" ,date)
+                _LOGGER.info("创建配置条目: %s", date)
                 return self.async_create_entry(title=date, data=user_input)
 
         data_schema = vol.Schema({vol.Required("date", default="today"): vol.In(OPTIONS)})
@@ -36,8 +36,8 @@ class HaVacationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     @staticmethod
     @callback
-    def async_get_options_flow(entry):
-        return HaVacationOptionsFlow(entry)
+    def async_get_options_flow(config_entry):
+        return HaVacationOptionsFlow(config_entry)
 
 
 class HaVacationOptionsFlow(OptionsFlow):
@@ -82,7 +82,7 @@ class HaVacationOptionsFlow(OptionsFlow):
             date = user_input.get("date", "")
             if not date:
                 errors["date"] = "invalid_date"
-                _LOGGER.error("无效的日期选项: %s",date)
+                _LOGGER.error("无效的日期选项: %s", date)
             else:
                 _LOGGER.info("创建配置条目: %s", date)
                 await self.customize_date.delete_customize_date_from_yaml(CustomizeDateSet.VACATION.value, date)
@@ -110,7 +110,7 @@ class HaVacationOptionsFlow(OptionsFlow):
             date = user_input.get("date", "")
             if not date:
                 errors["date"] = "invalid_date"
-                _LOGGER.error("无效的日期选项: %s",date)
+                _LOGGER.error("无效的日期选项: %s", date)
             else:
                 _LOGGER.info("创建配置条目: %s", date)
                 await self.customize_date.delete_customize_date_from_yaml(CustomizeDateSet.WORKDAY.value, date)

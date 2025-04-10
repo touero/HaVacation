@@ -22,10 +22,10 @@ class CustomizeDate:
                 with open(self.file_path, "r", encoding="utf-8") as file:
                     default_data = yaml.safe_load(file) or {}
                     if not isinstance(default_data, dict):
-                        _LOGGER.warning(f"Read {self.file_path} format error, reset to list: {self.file_path}")
+                        _LOGGER.warning("Read %s format error, reset to list: %s", self.file_path, self.file_path)
                         default_data = {CustomizeDateSet.VACATION.value: [], CustomizeDateSet.WORKDAY.value: []}
             except yaml.YAMLError as e:
-                _LOGGER.error(f"Read {self.file_path} failed: {e}")
+                _LOGGER.error("Read %s failed: %s", self.file_path, e)
         return default_data
 
     async def _load_original_data(self) -> dict:
@@ -35,9 +35,9 @@ class CustomizeDate:
         try:
             with open(self.file_path, "w", encoding="utf-8") as file:
                 yaml.safe_dump(data_written, file, allow_unicode=True, default_flow_style=False)
-            _LOGGER.info(f"Date saved to {self.file_path}: {data_written}")
+            _LOGGER.info("Date saved to %s: %s", self.file_path, data_written)
         except OSError as e:
-            _LOGGER.error(f"Write {self.file_path} failed: {e}")
+            _LOGGER.error("Write %s failed: %s", self.file_path, e)
 
     async def save_customize_date(self, date_type: str, date: str):
         default_data = await self._load_original_data()
@@ -55,9 +55,9 @@ class CustomizeDate:
             with open(self.file_path, "w", encoding="utf-8") as file:
                 yaml.safe_dump(default_data, file, allow_unicode=True, default_flow_style=False)
         except ValueError:
-            _LOGGER.warning(f"Date {date} not found in {self.file_path}")
+            _LOGGER.warning("Date %s not found in %s", date, self.file_path)
         except OSError as e:
-            _LOGGER.error(f"Delete write {self.file_path} failed: {e}")
+            _LOGGER.error("Delete write %s failed: %s", self.file_path, e)
 
     def sync_load_customize_date(self, date_type: str):
         default_data = self._load_local_data()

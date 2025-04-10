@@ -1,7 +1,8 @@
 import datetime
-from chinese_calendar import is_holiday, is_workday
 from dataclasses import dataclass, field
 from typing import Optional
+
+from chinese_calendar import is_holiday, is_workday
 
 from .constants import Options, HaVacationAttributes, CustomizeDateSet
 from .customize_date import CustomizeDate
@@ -31,27 +32,29 @@ class HaVacationDate:
     def is_vacation(self) -> str:
         if self.in_customize_date:
             if str(self) in self.customize_vacation_dates:
-                return HaVacationAttributes.TRUE.value
+                result = HaVacationAttributes.TRUE.value
             else:
-                return HaVacationAttributes.FALSE.value
+                result = HaVacationAttributes.FALSE.value
 
         elif is_holiday(self.date_datetime):
-            return HaVacationAttributes.TRUE.value
+            result = HaVacationAttributes.TRUE.value
         else:
-            return HaVacationAttributes.FALSE.value
+            result = HaVacationAttributes.FALSE.value
+        return result
 
     @property
     def is_workday(self) -> str:
         if self.in_customize_date:
             if str(self) in self.customize_workday_dates:
-                return HaVacationAttributes.TRUE.value
+                result = HaVacationAttributes.TRUE.value
             else:
-                return HaVacationAttributes.FALSE.value
+                result = HaVacationAttributes.FALSE.value
 
         elif is_workday(self.date_datetime):
-            return HaVacationAttributes.TRUE.value
+            result = HaVacationAttributes.TRUE.value
         else:
-            return HaVacationAttributes.FALSE.value
+            result = HaVacationAttributes.FALSE.value
+        return result
 
     @property
     def in_customize_date(self) -> bool:
