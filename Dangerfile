@@ -3,35 +3,35 @@ deleted_files = git.deleted_files
 
 total_lines_changed = git.lines_of_code
 
-summary = "### 🤖 PR Auto Summary\n"
-summary += "🚀 **Total affected files**: #{modified_files.count + deleted_files.count}\n"
-summary += "🆕 **New files**: #{git.added_files.count}\n"
-summary += "✏️ **Modified files**: #{git.modified_files.count}\n"
-summary += "🗑️ **Deleted files**: #{git.deleted_files.count}\n"
-summary += "📊 **Total lines changed**: #{total_lines_changed}\n"
-summary += "📂 **Key modified files**:\n"
+summary = "### 🤖 PR 自动摘要\n"
+summary += "🚀 **受影响的文件总数**: #{modified_files.count + deleted_files.count}\n"
+summary += "🆕 **新增文件**: #{git.added_files.count}\n"
+summary += "✏️ **修改的文件**: #{git.modified_files.count}\n"
+summary += "🗑️ **删除的文件**: #{git.deleted_files.count}\n"
+summary += "📊 **变更的总行数**: #{total_lines_changed}\n"
+summary += "📂 **主要修改的文件**:\n"
 
 modified_files.first(5).each do |file|
   summary += "  - `#{file}`\n"
 end
 
 unless deleted_files.empty?
-  summary += "🗂️ **Key deleted files**:\n"
+  summary += "🗂️ **主要删除的文件**:\n"
   deleted_files.first(5).each do |file|
     summary += "  - `#{file}`\n"
   end
 end
 
-warn("PR description is empty. Please provide a detailed explanation of the changes.") if github.pr_body.nil? || github.pr_body.strip.empty?
+warn("PR 描述为空，请提供详细的变更说明。") if github.pr_body.nil? || github.pr_body.strip.empty?
 
 source_branch = github.branch_for_head
 target_branch = github.branch_for_base
 
-warn("PR target branch is `#{target_branch}`. Ensure this PR follows the merge strategy!") if (target_branch == "main" || target_branch == "master") && !(source_branch == "dev" || source_branch == "develop")
+# warn("PR 目标分支为 `#{target_branch}`，请确保此 PR 遵循合并策略！") if (target_branch == "main" || target_branch == "master") && !(source_branch == "dev" || source_branch == "develop")
 
-warn("PR is marked as Work in Progress (WIP).") if github.pr_title.include? "WIP"
+warn("PR 被标记为进行中 (WIP)。") if github.pr_title.include? "WIP"
 
-warn("Please add labels to this PR.") if github.pr_labels.empty?
+warn("请为此 PR 添加标签。") if github.pr_labels.empty?
 
 markdown(summary)
 
