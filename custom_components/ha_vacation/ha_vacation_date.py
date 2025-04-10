@@ -6,6 +6,7 @@ from typing import Optional
 from .constants import Options, HaVacationAttributes, CustomizeDateSet
 from .customize_date import CustomizeDate
 
+
 @dataclass
 class HaVacationDate:
     name: str

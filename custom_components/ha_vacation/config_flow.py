@@ -6,7 +6,6 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.config_entries import OptionsFlow
-
 from .constants import Options, CustomizeMenuItems, CustomizeDateSet, CONFIG_FILE
 from .customize_date import CustomizeDate
 
@@ -26,9 +25,9 @@ class HaVacationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             date = user_input.get("date", "today")
             if date not in OPTIONS:
                 errors["date"] = "invalid_date"
-                _LOGGER.error(f"无效的日期选项: {date}" )
+                _LOGGER.error("无效的日期选项: %s", date)
             else:
-                _LOGGER.info(f"创建配置条目: {date}")
+                _LOGGER.info("创建配置条目: %s" ,date)
                 return self.async_create_entry(title=date, data=user_input)
 
         data_schema = vol.Schema({vol.Required("date", default="today"): vol.In(OPTIONS)})
@@ -44,7 +43,7 @@ class HaVacationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 class HaVacationOptionsFlow(OptionsFlow):
     def __init__(self, entry):
         self.entry = entry
-        self.customize_date: Optional[CustomizeDate|None] = None
+        self.customize_date: Optional[CustomizeDate | None] = None
 
     async def async_step_init(self, user_input=None):
         if self.customize_date is None:
@@ -61,7 +60,7 @@ class HaVacationOptionsFlow(OptionsFlow):
         elif user_input == CustomizeMenuItems.DELETE_WORKDAY_DATE.name:
             return await self.async_step_delete_workday_date()
         else:
-            return self.async_show_menu(step_id="menu",menu_options=CustomizeMenuItems.to_dict())
+            return self.async_show_menu(step_id="menu", menu_options=CustomizeMenuItems.to_dict())
 
     async def async_step_add_vacation_date(self, user_input=None):
         errors = {}
@@ -71,7 +70,7 @@ class HaVacationOptionsFlow(OptionsFlow):
                 errors["date"] = "请输入有效的日期格式（YYYY-MM-DD）"
             else:
                 await self.customize_date.save_customize_date(CustomizeDateSet.VACATION.value, date)
-                _LOGGER.info(f"日期已保存到 {CONFIG_FILE}: {date}")
+                _LOGGER.info("日期已保存到 %s: %s", CONFIG_FILE, date)
                 return self.async_abort(reason="添加自定义假期日期成功")
         data_schema = vol.Schema({vol.Required("date"): vol.All(str, vol.Length(min=1))})
         return self.async_show_form(step_id="add_vacation_date", data_schema=data_schema, errors=errors)
@@ -82,9 +81,9 @@ class HaVacationOptionsFlow(OptionsFlow):
             date = user_input.get("date", "")
             if not date:
                 errors["date"] = "invalid_date"
-                _LOGGER.error(f"无效的日期选项: {date}")
+                _LOGGER.error("无效的日期选项: %s",date)
             else:
-                _LOGGER.info(f"创建配置条目: {date}")
+                _LOGGER.info("创建配置条目: %s", date)
                 await self.customize_date.delete_customize_date_from_yaml(CustomizeDateSet.VACATION.value, date)
                 return self.async_abort(reason="删除自定义假期日期成功")
         default_data = await self.customize_date.read_customize_date_from_yaml(CustomizeDateSet.VACATION.value)
@@ -99,7 +98,7 @@ class HaVacationOptionsFlow(OptionsFlow):
                 errors["date"] = "请输入有效的日期格式（YYYY-MM-DD）"
             else:
                 await self.customize_date.save_customize_date(CustomizeDateSet.WORKDAY.value, date)
-                _LOGGER.info(f"日期已保存到 {CONFIG_FILE}: {date}")
+                _LOGGER.info("日期已保存到 %s: %s", CONFIG_FILE, date)
                 return self.async_abort(reason="添加自定义工作日日期成功")
         data_schema = vol.Schema({vol.Required("date"): vol.All(str, vol.Length(min=1))})
         return self.async_show_form(step_id="add_workday_date", data_schema=data_schema, errors=errors)
@@ -110,9 +109,9 @@ class HaVacationOptionsFlow(OptionsFlow):
             date = user_input.get("date", "")
             if not date:
                 errors["date"] = "invalid_date"
-                _LOGGER.error(f"无效的日期选项: {date}")
+                _LOGGER.error("无效的日期选项: %s",date)
             else:
-                _LOGGER.info(f"创建配置条目: {date}")
+                _LOGGER.info("创建配置条目: %s", date)
                 await self.customize_date.delete_customize_date_from_yaml(CustomizeDateSet.WORKDAY.value, date)
                 return self.async_abort(reason="删除自定义工作日期成功")
         default_data = await self.customize_date.read_customize_date_from_yaml(CustomizeDateSet.WORKDAY.value)

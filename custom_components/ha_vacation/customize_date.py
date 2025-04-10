@@ -46,7 +46,7 @@ class CustomizeDate:
 
     async def read_customize_date_from_yaml(self, date_type: str):
         default_data = await self._load_original_data()
-        return  default_data[date_type]
+        return default_data[date_type]
 
     async def delete_customize_date_from_yaml(self, date_type: str, date: str):
         default_data = await self._load_original_data()
