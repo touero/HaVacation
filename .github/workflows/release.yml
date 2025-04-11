@@ -5,6 +5,9 @@ on:
     tags:
       - "*"
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Create Release
@@ -24,12 +27,47 @@ jobs:
         id: get_tag
         run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
+      - name: Generate release notes
+        id: generate_notes
+        run: |
+          # 获取上一个 Tag
+          previous_tag=$(git describe --tags --abbrev=0 HEAD^)
+
+          # 提取提交日志
+          changelog=$(git log ${previous_tag}..HEAD --pretty=format:"- **%s** (%h)")
+
+          # 如果提交日志为空，提供默认内容
+          if [ -z "$changelog" ]; then
+            changelog="No significant changes in this release."
+          fi
+
+          # 构建 Markdown 格式的 Release Notes
+          echo "release_notes=$(cat <<EOF
+# Release HaVacation for Version $tag_name
+
+## 🗒️ Summary
+This release includes all the changes made from the previous version to this one. Below are the details of the updates and improvements.
+
+---
+
+## 📜 Changelog
+${changelog}
+
+---
+
+## 📦 Assets
+The following asset is included in this release:
+- \`ha_vacation.tar.gz\`
+
+EOF
+          )" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.tag_name }}
           files: ha_vacation.tar.gz
-          body: "${{ env.tag_name }}"
+          body: ${{ env.release_notes }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
