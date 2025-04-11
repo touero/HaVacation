@@ -3,6 +3,8 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import async_track_time_change
 
 from .ha_vacation_date import HaVacationDate
+from .constants import CONFIG_FILE
+from .customize_date import CustomizeDate
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -31,7 +33,8 @@ class VacationSensor(Entity):
         self._name = f"ha_vacation_{date}"
         self._unique_id = f"vacation_sensor_{date}"
 
-        self.ha_vacation_date = HaVacationDate(date)
+        customize_date = CustomizeDate(self._hass, CONFIG_FILE)
+        self.ha_vacation_date = HaVacationDate(date, customize_date)
         self._attributes: dict = self.ha_vacation_date.attributes
 
     @property

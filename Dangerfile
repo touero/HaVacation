@@ -40,14 +40,13 @@ python_files = (git.modified_files + git.added_files).select { |file| file.end_w
 unless python_files.empty?
   flake8_result = `flake8 --ignore=E501 #{python_files.join(" ")}`
   flake8_exit_status = $?.exitstatus
-
   if flake8_exit_status != 0
     fail("❌ Flake8 检查：\n```\n#{flake8_result}\n```")
   else
     message("✅ Flake8 检查未发现问题！")
   end
 
-  pylint_result = `pylint --disable=C0114,C0115,C0116 --output-format=parseable #{python_files.join(" ")}`
+  pylint_result = `pylint --disable=C0301,C0114,C0115,C0116 --output-format=parseable #{python_files.join(" ")}`
   pylint_exit_status = $?.exitstatus
 
   if pylint_exit_status != 0
