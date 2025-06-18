@@ -50,7 +50,7 @@ tar -zxvf ha_vacation.tar.gz
 > [!TIP]
 > 下面一些属性的类型和描述说明
 
-| attribute | type | description |
+| 属性 | 类型 | 描述 |
 | --------- | ---- | ----------- |
 | Updated at | str | 实体更新日期的时间, 每天00:00更新 |
 | Is workday | str |  这天是否为工作日 |
