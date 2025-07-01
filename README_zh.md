@@ -57,7 +57,6 @@ tar -zxvf ha_vacation.tar.gz
 | Is vacation | str | 这天是否为假期|
 | Is customize date | str | 这天是否是自定义的节假日 |
 
-The value of `Is workday`, `Is vacation` and `Is customize date` there will be only two changes: `true` and `false`.  
 属性 `Is workday`, `Is vacation` and `Is customize date` 它们有两个值: str类型的`true` and `false`.  
 
 > [!IMPORTANT] 
