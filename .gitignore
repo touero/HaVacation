@@ -3,4 +3,6 @@ venv/
 .idea/
 .DS_store/
 __pycache__/
+.coverage
+htmlcov/
 

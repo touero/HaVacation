@@ -3,3 +3,6 @@ homeassistant
 flake8
 pylint
 chinesecalendar==1.10.0
+pytest-cov==3.0.0
+pytest-homeassistant-custom-component==0.13.45
+
