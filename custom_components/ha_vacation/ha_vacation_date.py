@@ -12,7 +12,7 @@ from .customize_date import CustomizeDate
 class HaVacationDate:
     name: str
     customize_date: CustomizeDate
-    now: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now: str = field(default_factory=lambda: datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     today: datetime.date = field(default_factory=datetime.date.today)
     attributes: dict = field(default_factory=dict, init=False)
     date_datetime: Optional[datetime.date] = field(default=None, init=False)
