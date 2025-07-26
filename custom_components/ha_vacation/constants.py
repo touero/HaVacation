@@ -5,9 +5,9 @@ CONFIG_FILE = "custom_components/ha_vacation/ha_vacation.yaml"
 
 
 class Options(Enum):
-    TODAY: str = "today"
-    YESTERDAY: str = "yesterday"
-    TOMORROW: str = "tomorrow"
+    TODAY = "today"
+    YESTERDAY = "yesterday"
+    TOMORROW = "tomorrow"
 
     @staticmethod
     def to_list() -> list:
@@ -15,15 +15,15 @@ class Options(Enum):
 
 
 class HaVacationAttributes(Enum):
-    TRUE: str = "true"
-    FALSE: str = "false"
+    TRUE = "true"
+    FALSE = "false"
 
 
 class CustomizeMenuItems(Enum):
-    ADD_VACATION_DATE: str = "添加自定义假期"
-    DELETE_VACATION_DATE: str = "删除自定义假期"
-    ADD_WORKDAY_DATE: str = "添加自定义工作日"
-    DELETE_WORKDAY_DATE: str = "删除自定义工作日"
+    ADD_VACATION_DATE = "添加自定义假期"
+    DELETE_VACATION_DATE = "删除自定义假期"
+    ADD_WORKDAY_DATE = "添加自定义工作日"
+    DELETE_WORKDAY_DATE = "删除自定义工作日"
 
     @staticmethod
     def to_dict():
@@ -31,5 +31,5 @@ class CustomizeMenuItems(Enum):
 
 
 class CustomizeDateSet(Enum):
-    VACATION: str = "vacation_dates"
-    WORKDAY: str = "workday_dates"
+    VACATION = "vacation_dates"
+    WORKDAY = "workday_dates"
