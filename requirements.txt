@@ -2,7 +2,7 @@ pytest
 homeassistant
 flake8
 pylint
-chinesecalendar==1.10.0
+chinesecalendar==1.11.0
 pytest-cov==3.0.0
 pytest-homeassistant-custom-component==0.13.45
 coverage
