@@ -12,18 +12,19 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(hass, entry, async_add_entities):
     date = entry.data.get("date", "today")
     vacation_sensor = VacationSensor(hass, date)
-    async_add_entities([vacation_sensor])
 
     async def update_at_midnight(now):
         vacation_sensor.update_attributes()
 
-    async_track_time_change(
+    vacation_sensor._unsubscribe_midnight = async_track_time_change(
         hass,
         update_at_midnight,
         hour=0,
         minute=0,
         second=0,
     )
+
+    async_add_entities([vacation_sensor])
 
 
 class VacationSensor(Entity):
@@ -32,10 +33,16 @@ class VacationSensor(Entity):
         self._hass = hass
         self._name = f"ha_vacation_{date}"
         self._unique_id = f"vacation_sensor_{date}"
+        self._unsubscribe_midnight = None
 
         customize_date = CustomizeDate(self._hass, CONFIG_FILE)
         self.ha_vacation_date = HaVacationDate(date, customize_date)
         self._attributes: dict = self.ha_vacation_date.attributes
+
+    async def async_will_remove_from_hass(self):
+        if self._unsubscribe_midnight:
+            self._unsubscribe_midnight()
+            self._unsubscribe_midnight = None
 
     @property
     def state(self) -> str:
