@@ -1,3 +1,4 @@
+import asyncio
 import os
 import logging
 import yaml
@@ -13,6 +14,7 @@ class CustomizeDate:
     def __init__(self, hass: HomeAssistant, config_file: str):
         self.hass = hass
         self.file_path = self.hass.config.path(config_file)
+        self._lock = asyncio.Lock()
         os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
 
     def _load_local_data(self) -> dict:
@@ -40,24 +42,23 @@ class CustomizeDate:
             _LOGGER.error("Write %s failed: %s", self.file_path, e)
 
     async def save_customize_date(self, date_type: str, date: str):
-        default_data = await self._load_original_data()
-        default_data[date_type].append(date)
-        await self.write_customize_date_to_yaml(default_data)
+        async with self._lock:
+            default_data = await self._load_original_data()
+            default_data[date_type].append(date)
+            await self.write_customize_date_to_yaml(default_data)
 
     async def read_customize_date_from_yaml(self, date_type: str):
         default_data = await self._load_original_data()
         return default_data[date_type]
 
     async def delete_customize_date_from_yaml(self, date_type: str, date: str):
-        default_data = await self._load_original_data()
-        try:
-            default_data[date_type].remove(date)
-            with open(self.file_path, "w", encoding="utf-8") as file:
-                yaml.safe_dump(default_data, file, allow_unicode=True, default_flow_style=False)
-        except ValueError:
-            _LOGGER.warning("Date %s not found in %s", date, self.file_path)
-        except OSError as e:
-            _LOGGER.error("Delete write %s failed: %s", self.file_path, e)
+        async with self._lock:
+            default_data = await self._load_original_data()
+            try:
+                default_data[date_type].remove(date)
+                await self.write_customize_date_to_yaml(default_data)
+            except ValueError:
+                _LOGGER.warning("Date %s not found in %s", date, self.file_path)
 
     def sync_load_customize_date(self, date_type: str):
         default_data = self._load_local_data()
