@@ -117,4 +117,4 @@ class HaVacationOptionsFlow(OptionsFlow):
                 return self.async_abort(reason="删除自定义工作日期成功")
         default_data = await self.customize_date.read_customize_date_from_yaml(CustomizeDateSet.WORKDAY.value)
         data_schema = vol.Schema({vol.Required("date"): vol.In(default_data)})
-        return self.async_show_form(step_id="delete_vacation_date", data_schema=data_schema, errors=errors)
+        return self.async_show_form(step_id="delete_workday_date", data_schema=data_schema, errors=errors)

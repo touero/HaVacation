@@ -94,7 +94,7 @@ async def test_optionflow_menu_delete_workday(hass, mock_customize_date):
     flow.customize_date = mock_customize_date
     result = await flow.async_step_menu(CustomizeMenuItems.DELETE_WORKDAY_DATE.name)
     assert result["type"] == "form"
-    assert result["step_id"] == "delete_vacation_date"
+    assert result["step_id"] == "delete_workday_date"
 
 @pytest.mark.asyncio
 async def test_optionflow_menu_default(hass, mock_customize_date):
