@@ -16,60 +16,79 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Full history and all tags are required to build the changelog,
+          # the default shallow clone (depth 1) has neither.
+          fetch-depth: 0
 
       - name: Create tar.gz package
         run: |
           cd custom_components
-          tar -zcvf ha_vacation.tar.gz ha_vacation
+          tar -zcvf ha_vacation.tar.gz --exclude='__pycache__' ha_vacation
           mv ha_vacation.tar.gz ../
 
       - name: Get tag name
         id: get_tag
-        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
 
       - name: Generate release notes
-        id: generate_notes
+        env:
+          TAG_NAME: ${{ steps.get_tag.outputs.tag_name }}
         run: |
-          # 获取上一个 Tag
-          previous_tag=$(git describe --tags --abbrev=0 HEAD^)
+          # 上一个 tag（没有历史 tag 时退回最近 20 条提交）
+          previous_tag=$(git describe --tags --abbrev=0 "${GITHUB_SHA}^" 2>/dev/null || true)
 
-          # 提取提交日志
-          changelog=$(git log ${previous_tag}..HEAD --pretty=format:"- **%s** (%h)")
+          if [ -n "$previous_tag" ]; then
+            echo "changelog from ${previous_tag}"
+            changelog=$(git log "${previous_tag}..${GITHUB_SHA}" --pretty=format:"- **%s** (%h)")
+          else
+            echo "no previous tag found, listing recent commits"
+            changelog=$(git log -20 --pretty=format:"- **%s** (%h)")
+          fi
 
-          # 如果提交日志为空，提供默认内容
           if [ -z "$changelog" ]; then
             changelog="No significant changes in this release."
           fi
 
-          # 构建 Markdown 格式的 Release Notes
-          echo "release_notes=$(cat <<EOF
-# Release HaVacation for Version $tag_name
+          # 写到文件里再交给 action，多行内容不能通过 $GITHUB_ENV 传递
+          {
+            echo "# Release HaVacation for Version ${TAG_NAME}"
+            echo
+            echo "## 🗒️ Summary"
+            echo "This release includes all the changes made from the previous version to this one. Below are the details of the updates and improvements."
+            echo
+            echo "---"
+            echo
+            echo "## 📜 Changelog"
+            echo "${changelog}"
+            echo
+            echo "---"
+            echo
+            echo "## 📦 Assets"
+            echo "The following asset is included in this release:"
+            echo "- \`ha_vacation.tar.gz\`"
+          } > release_notes.md
 
-## 🗒️ Summary
-This release includes all the changes made from the previous version to this one. Below are the details of the updates and improvements.
-
----
-
-## 📜 Changelog
-${changelog}
-
----
-
-## 📦 Assets
-The following asset is included in this release:
-- \`ha_vacation.tar.gz\`
-
-EOF
-          )" >> $GITHUB_ENV
+          cat release_notes.md
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.tag_name }}
+          tag_name: ${{ steps.get_tag.outputs.tag_name }}
           files: ha_vacation.tar.gz
-          body: ${{ env.release_notes }}
+          body_path: release_notes.md
+          # 允许对已存在的 tag 重新生成 release（重跑 workflow 时覆盖）
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload release notes as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release_notes.md
+          if-no-files-found: ignore
+
       - name: Cleanup
-        run: rm -f ha_vacation.tar.gz
+        run: rm -f ha_vacation.tar.gz release_notes.md
