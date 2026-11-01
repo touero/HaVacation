@@ -2,10 +2,22 @@ import datetime
 from dataclasses import dataclass, field
 from typing import Optional
 
-from chinese_calendar import is_holiday, is_workday
+import chinese_calendar as _calendar
 
 from .constants import Options, HaVacationAttributes, CustomizeDateSet
 from .customize_date import CustomizeDate
+
+
+def is_holiday(date: datetime.date) -> bool:
+    """Looked up through a module reference so an upgraded package is used."""
+    try:
+        return _calendar.is_holiday(date)
+    except NotImplementedError:  # 数据还没覆盖到这一年
+        return date.weekday() >= 5
+
+
+def is_workday(date: datetime.date) -> bool:
+    return not is_holiday(date)
 
 
 @dataclass

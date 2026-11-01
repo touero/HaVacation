@@ -33,6 +33,12 @@ async def test_async_setup_entry(hass, mock_entry, monkeypatch):
         fake_forward_entry_setups,
     )
 
+    # the calendar is checked once a year (December 15); don't leave a timer behind
+    monkeypatch.setattr(
+        "custom_components.ha_vacation.async_track_point_in_time",
+        lambda hass, action, when: (lambda: None),
+    )
+
     from custom_components.ha_vacation import async_setup_entry
 
     result = await async_setup_entry(hass, mock_entry)

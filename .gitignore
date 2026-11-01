@@ -6,3 +6,6 @@ __pycache__/
 .coverage
 htmlcov/
 
+# build artifact from the release workflow
+custom_components/*.tar.gz
+
