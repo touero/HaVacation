@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-    <img src=preview/logo.png height="200" width="200" alt="">
+    <img src=https://raw.githubusercontent.com/touero/HaVacation/main/custom_components/ha_vacation/brand/icon.png height="200" width="200" alt="">
 </p>
 
 一个关于中国节假日/工作日的Home-Assistant集成, 同时它支持自定义工作日和假期.
@@ -19,6 +19,11 @@
 [![ByHacs](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=touero&repository=HaVacation&category=integration)  
 #### 然后重启Home-assistant, 你就能在集成菜单找到它或者点击:  
 [![add_integration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=ha_vacation)
+
+
+或者添加自定义仓库到hacs: hacs -> settings -> add custom repository  
+- Repository: https://github.com/touero/HaVacation
+- Type: Integration
 
 ### 手动安装
 导航到[Releases](https://github.com/touero/HaVacation/releases/)下载ha_vacation.tar.gz压缩包, 把它放到`HomeAssistant/custom_components`下执行命令解压:
@@ -37,15 +42,15 @@ tar -zxvf ha_vacation.tar.gz
 
 配置后你会得到3个实体
 
-![preview](https://github.com/touero/HaVacation/blob/main/preview/sensor.png)
+![preview](https://raw.githubusercontent.com/touero/HaVacation/main/preview/sensor.png)
 
 它们有着一些属性
 
-![preview](https://github.com/touero/HaVacation/blob/main/preview/sensor_details.png)
+![preview](https://raw.githubusercontent.com/touero/HaVacation/main/preview/sensor_details.png)
 
 你可以自定义节假日在实体的配置中
 
-![preview](https://github.com/touero/HaVacation/blob/main/preview/config.png)
+![preview](https://raw.githubusercontent.com/touero/HaVacation/main/preview/config.png)
 
 > [!TIP]
 > 下面一些属性的类型和描述说明
@@ -68,5 +73,4 @@ tar -zxvf ha_vacation.tar.gz
 [chinese-calendar](https://github.com/LKI/chinese-calendar)
 
 ## 协议
-[MIT](https://github.com/touero/HaVacation/blob/main/LICENSE) [@touero](https://github.com/touero)
-
+[MIT](https://github.com/touero/HaVacation/blob/main/LICENSE)
